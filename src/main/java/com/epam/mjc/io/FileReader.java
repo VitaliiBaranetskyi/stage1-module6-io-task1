@@ -12,25 +12,28 @@ public class FileReader {
 
     public Profile getDataFromFile(File file) {
         StringBuilder result = new StringBuilder();
-        try (java.io.FileReader reader = new java.io.FileReader(file)) {
+        try (BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
             while (reader.ready()) {
-                char symbol = (char) reader.read();
-                //if(symbol != '\r' && symbol != '\n' && symbol != ' ' && symbol != ':')
-                result.append(symbol);
+                //char symbol = (char) reader.read();
+                //if (symbol == '\r' || symbol == '\n' || symbol == ':')
+                //    result.append(",");
+                //else if(symbol != ' ')
+                result.append(reader.readLine().replaceAll(": ", " ")).append(" ");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String[] split = result.toString().split("[ :\\n\\r]");
+        //System.out.println(result);
+        String[] split = result.toString().split(" ");
         Profile profile = new Profile();
-        profile.setName(split[2]);
+        profile.setName(split[1]);
         try {
-            profile.setAge(Integer.parseInt(split[6]));
+            profile.setAge(Integer.valueOf(split[3]));
         } catch (NumberFormatException numberFormatException) {
             profile.setAge(0);
         }
-        profile.setEmail(split[10]);
-        profile.setPhone(Long.parseLong(split[14]));
+        profile.setEmail(split[5]);
+        profile.setPhone(Long.parseLong(split[7]));
         return profile;
     }
 
