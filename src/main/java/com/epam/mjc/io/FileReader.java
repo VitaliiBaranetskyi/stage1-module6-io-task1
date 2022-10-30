@@ -14,27 +14,17 @@ public class FileReader {
         StringBuilder result = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
             while (reader.ready()) {
-                //char symbol = (char) reader.read();
-                //if (symbol == '\r' || symbol == '\n' || symbol == ':')
-                //    result.append(",");
-                //else if(symbol != ' ')
-                result.append(reader.readLine().replaceAll(": ", " ")).append(" ");
+                result.append(reader.readLine().replace(": ", " ")).append(" ");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //System.out.println(result);
         String[] split = result.toString().split(" ");
         Profile profile = new Profile();
         profile.setName(split[1]);
-        profile.setAge(Integer.valueOf(split[3]));
+        profile.setAge(Integer.parseInt(split[3]));
         profile.setEmail(split[5]);
         profile.setPhone(Long.parseLong(split[7]));
         return profile;
-    }
-
-    public static void main(String[] args) {
-        FileReader reader = new FileReader();
-        System.out.println(reader.getDataFromFile(new File("D:/MJCschool/stage1-module6-io-task1/src/main/resources/Profile.txt")));
     }
 }
